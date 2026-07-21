@@ -1,0 +1,53 @@
+#pragma once
+
+#include <vector>
+#include "NestingEngine.h"
+
+class NestingCore
+{
+public:
+
+    std::vector<Sheet> pack(
+        const std::vector<Rect>& items,
+        double containerWidth,
+        double containerHeight
+    );
+
+private:
+
+    void newSheet(
+        std::vector<Sheet>& sheets,
+        double width,
+        double height
+    );
+
+    bool tryPlaceInSheet(
+        Sheet& sheet,
+        double w,
+        double h,
+        bool& rotated,
+        double& outX,
+        double& outY,
+        int& usedIndex
+    );
+
+    void splitFreeRect(
+        Sheet& sheet,
+        int index,
+        double x,
+        double y,
+        double w,
+        double h
+    );
+
+    // NEW
+    void pruneFreeRects(
+        Sheet& sheet
+    );
+
+    void pruneMaxRects(Sheet& sheet);
+
+private:
+    // SAFETY GUARD (does NOT break existing code)
+    bool isValidIndex(const Sheet& sheet, int index);
+};
